@@ -29,6 +29,7 @@ Installers/Linux/tmp_run/
 *.[Cc]ache
 *.ilk
 *.log
+*.binlog
 *.lib
 *.sbr
 *.sdf

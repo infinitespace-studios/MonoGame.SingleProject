@@ -1,0 +1,67 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "dotnet build ${input:project} -t:${input:target} -p:Configuration=${input:configuration} -f ${input:framework} -bl",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        }
+    ],
+    "inputs": [
+        {
+          "id": "configuration",
+          "type": "pickString",
+          "default": "Debug",
+          "description": "Select msbuild Build Configuration.",
+          "options": [
+              "Debug",
+              "Release"
+            ]
+        },
+        {
+            // Add additional projects here. They will be available in the drop down
+            // in vscode.
+            "id": "project",
+            "type": "pickString",
+            "default": "foo.csproj",
+            "description": "Pick the Project you want to build.",
+            "options": [
+                "src/MonoGame.SingleProject.Sdk.csproj",
+                "sample/sample.csproj",
+            ]
+        },
+        {
+            "id": "target",
+            "type": "pickString",
+            "default": "Build",
+            "description": "Select MSBuild Target to run.",
+            "options": [
+                "Build",
+                "Clean",
+            ]
+        },
+        {
+            "id": "framework",
+            "type": "pickString",
+            "default": "net8.0",
+            "description": "Select Framework to run.",
+            "options": [
+                "net8.0", // DesktopGL
+                "netstandard2.0",
+                "net8.0-android",
+                "net8.0-ios",
+                "net8.0-maccatalyst",
+                "net8.0-windows",
+            ]
+        },
+      ]
+}
