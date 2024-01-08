@@ -1,0 +1,136 @@
+<!-- "Single Project" support -->
+<Project>
+
+  <PropertyGroup Condition=" '$(SingleProject)' == 'true' ">
+    <PlatformsProjectFolder Condition=" '$(PlatformsProjectFolder)' == '' ">Platforms\</PlatformsProjectFolder>
+    <PlatformsProjectFolder>$([MSBuild]::EnsureTrailingSlash('$(PlatformsProjectFolder)'))</PlatformsProjectFolder>
+    <!-- Required - Enable Launch Profiles for .NET 6 iOS/Android -->
+    <_KeepLaunchProfiles>true</_KeepLaunchProfiles>
+    <!-- Android -->
+    <!-- <EnableDefaultAndroidItems>true</EnableDefaultAndroidItems> -->
+    <AndroidProjectFolder Condition=" '$(AndroidProjectFolder)' == '' ">$(PlatformsProjectFolder)Android\</AndroidProjectFolder>
+    <AndroidProjectFolder>$([MSBuild]::EnsureTrailingSlash('$(AndroidProjectFolder)'))</AndroidProjectFolder>
+    <MonoAndroidResourcePrefix>$(AndroidProjectFolder)Resources</MonoAndroidResourcePrefix>
+    <!-- iOS -->
+    <EnableDefaultiOSItems>false</EnableDefaultiOSItems>
+    <iOSProjectFolder Condition=" '$(iOSProjectFolder)' == '' ">$(PlatformsProjectFolder)iOS\</iOSProjectFolder>
+    <iOSProjectFolder>$([MSBuild]::EnsureTrailingSlash('$(iOSProjectFolder)'))</iOSProjectFolder>
+    <!-- MacCatalyst -->
+    <EnableDefaultMacCatalystItems>false</EnableDefaultMacCatalystItems>
+    <MacCatalystProjectFolder Condition=" '$(MacCatalystProjectFolder)' == '' ">$(PlatformsProjectFolder)MacCatalyst\</MacCatalystProjectFolder>
+    <MacCatalystProjectFolder>$([MSBuild]::EnsureTrailingSlash('$(MacCatalystProjectFolder)'))</MacCatalystProjectFolder>
+    <!-- Windows -->
+    <EnableDefaultWindowsItems>false</EnableDefaultWindowsItems>
+    <WindowsProjectFolder Condition=" '$(WindowsProjectFolder)' == '' ">$(PlatformsProjectFolder)Windows\</WindowsProjectFolder>
+    <WindowsProjectFolder>$([MSBuild]::EnsureTrailingSlash('$(WindowsProjectFolder)'))</WindowsProjectFolder>
+    <!-- Desktop -->
+    <EnableDefaultDesktopItems>false</EnableDefaultDesktopItems>
+    <DesktopProjectFolder Condition=" '$(DesktopProjectFolder)' == '' ">$(PlatformsProjectFolder)Desktop\</DesktopProjectFolder>
+    <DesktopProjectFolder>$([MSBuild]::EnsureTrailingSlash('$(DesktopProjectFolder)'))</DesktopProjectFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MonoGamePlatformSpecificFolder Include="$(AndroidProjectFolder)" TargetPlatformIdentifier="android" />
+    <MonoGamePlatformSpecificFolder Include="$(iOSProjectFolder)" TargetPlatformIdentifier="ios" />
+    <MonoGamePlatformSpecificFolder Include="$(MacCatalystProjectFolder)" TargetPlatformIdentifier="maccatalyst" />
+    <MonoGamePlatformSpecificFolder Include="$(WindowsProjectFolder)" TargetPlatformIdentifier="windows" />
+    <MonoGamePlatformSpecificFolder Include="$(DesktopProjectFolder)" TargetPlatformIdentifier="" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(SingleProject)' == 'true' and '$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'android' ">
+    <AndroidManifest Condition=" Exists('$(AndroidProjectFolder)AndroidManifest.xml') ">$(AndroidProjectFolder)AndroidManifest.xml</AndroidManifest>
+    <MonoAndroidResourcePrefix>$(AndroidProjectFolder)Resources</MonoAndroidResourcePrefix>
+    <MonoAndroidAssetsPrefix>$(AndroidProjectFolder)Assets</MonoAndroidAssetsPrefix>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(SingleProject)' == 'true' and '$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'ios' ">
+    <IPhoneResourcePrefix>$(iOSProjectFolder)Resources</IPhoneResourcePrefix>
+    <CodesignEntitlements Condition=" Exists('$(iOSProjectFolder)Entitlements.plist') ">$(iOSProjectFolder)Entitlements.plist</CodesignEntitlements>
+    <_SingleProjectiOSExcludes>$(iOSProjectFolder)/**/.*/**</_SingleProjectiOSExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(SingleProject)' == 'true' and '$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'maccatalyst' ">
+    <IPhoneResourcePrefix>$(MacCatalystProjectFolder)Resources</IPhoneResourcePrefix>
+    <CodesignEntitlements Condition=" Exists('$(MacCatalystProjectFolder)Entitlements.plist') ">$(MacCatalystProjectFolder)Entitlements.plist</CodesignEntitlements>
+    <_SingleProjectMacCatalystExcludes>$(MacCatalystProjectFolder)/**/.*/**</_SingleProjectMacCatalystExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(SingleProject)' == 'true' and '$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'windows' ">
+    <ApplicationManifest Condition=" Exists('$(WindowsProjectFolder)app.manifest') ">$(WindowsProjectFolder)app.manifest</ApplicationManifest>
+    <PackageManifest Condition=" Exists('$(WindowsProjectFolder)Package.appxmanifest') ">$(WindowsProjectFolder)Package.appxmanifest</PackageManifest>
+    <EnableDefaultPageItems>False</EnableDefaultPageItems>
+    <EnableDefaultApplicationDefinition>False</EnableDefaultApplicationDefinition>
+    <_SingleProjectWindowsExcludes>$(WindowsProjectFolder)/**/.*/**</_SingleProjectWindowsExcludes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(SingleProject)' == 'true' and '$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == '' ">
+    <EnableDefaultPageItems>False</EnableDefaultPageItems>
+    <EnableDefaultApplicationDefinition>False</EnableDefaultApplicationDefinition>
+    <_SingleProjectDesktopExcludes>$(DesktopProjectFolder)/**/.*/**</_SingleProjectDesktopExcludes>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(SingleProject)' == 'true' ">
+    <!-- Add metadata indicating that the platform-specific files are not part of every build configuration. -->
+    <Compile Update="$(PlatformsProjectFolder)**/*$(DefaultLanguageSourceExtension)">
+      <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+    </Compile>
+
+    <!-- Add metadata for the files that are actually part of the current build configuration. -->
+    <Compile
+        Condition=" '$(TargetPlatformIdentifier)' == 'android' "
+        Update="$(AndroidProjectFolder)**/*$(DefaultLanguageSourceExtension)">
+      <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+    </Compile>
+    <Compile
+        Condition=" '$(TargetPlatformIdentifier)' == 'ios' "
+        Update="$(iOSProjectFolder)**/*$(DefaultLanguageSourceExtension)">
+      <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+    </Compile>
+    <Compile
+        Condition=" '$(TargetPlatformIdentifier)' == 'maccatalyst' "
+        Update="$(MacCatalystProjectFolder)**/*$(DefaultLanguageSourceExtension)">
+      <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+    </Compile>
+    <Compile
+        Condition=" '$(TargetPlatformIdentifier)' == 'windows' "
+        Update="$(WindowsProjectFolder)**/*$(DefaultLanguageSourceExtension)">
+      <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+    </Compile>
+    <Compile
+        Condition=" '$(TargetPlatformIdentifier)' == '' "
+        Update="$(DesktopProjectFolder)**/*$(DefaultLanguageSourceExtension)">
+      <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+    </Compile>
+  </ItemGroup>
+
+  <!--
+    Run before both GenerateMSBuildEditorConfigFileShouldRun
+  -->
+  <Target Name="_MonoGameRemovePlatformCompileItems"
+          BeforeTargets="GenerateMSBuildEditorConfigFileShouldRun"
+          Condition=" '$(EnableDefaultItems)' == 'true' and '$(SingleProject)' == 'true' ">
+
+  <!-- Removals -->
+    <ItemGroup>
+      <!-- Remove everything that isn't part of this platform -->
+      <Compile
+          Condition=" '%(Compile.ExcludeFromCurrentConfiguration)' == 'true' "
+          Remove="$(PlatformsProjectFolder)**/*$(DefaultLanguageSourceExtension)" />
+
+      <!-- Remove all Windows (WinUI) XAML Files from the Windows folder -->
+      <_MonoGameXamlToRemove
+          Condition="'$(WindowsProjectFolder)' != ''"
+          Include="$(WindowsProjectFolder)**/*.xaml" />
+      <EmbeddedResource Remove="@(_MonoGameXamlToRemove)" />
+      <MonoGameXaml Remove="@(_MonoGameXamlToRemove)" />
+    </ItemGroup>
+
+  </Target>
+
+  <!-- Import Single Project property pages from Maui -->
+  <PropertyGroup Condition="'$(MauiDesignTimeTargetsPath)' == ''">
+    <MauiDesignTimeTargetsPath>$(MSBuildExtensionsPath)\Microsoft\VisualStudio\Maui\Maui.DesignTime.targets</MauiDesignTimeTargetsPath>
+  </PropertyGroup>
+  <Import Project="$(MauiDesignTimeTargetsPath)" Condition="Exists('$(MauiDesignTimeTargetsPath)')" />
+
+</Project>

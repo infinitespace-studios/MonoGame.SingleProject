@@ -1,0 +1,25 @@
+<Project>
+    <Import Project="$(MSBuildThisFileDirectory)MonoGame.SingleProject.targets" />
+	<ItemGroup Condition=" '$(MonoGameEnablePlatformUsings)' != 'true' and ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable') ">
+		<Using Remove="@(Using->HasMetadata('Platform'))" />
+	</ItemGroup>
+	<Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" /> 
+	<PropertyGroup>
+    	<EnableDefaultAndroidItems Condition=" '$(EnableDefaultAndroidItems)' == '' ">$(EnableDefaultItems)</EnableDefaultAndroidItems>
+  	</PropertyGroup>
+	<PropertyGroup>
+		<EnableDefaultMonoGameItems Condition="'$(EnableDefaultMonoGameItems)' == ''">$(EnableDefaultItems)</EnableDefaultMonoGameItems>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(MonoGamePlatform)' == ''">
+		<MonoGamePlatform Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">windowsdx</MonoGamePlatform>
+		<MonoGamePlatform Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">desktopgl</MonoGamePlatform>
+		<MonoGamePlatform Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">android</MonoGamePlatform>
+		<MonoGamePlatform Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">ios</MonoGamePlatform>
+		<MonoGamePlatform Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == ''">desktopgl</MonoGamePlatform>
+	</PropertyGroup>
+
+	<Target Name="RestoreDotnetTools" BeforeTargets="Restore">
+		<Message Text="Restoring dotnet tools" Importance="High" />
+		<Exec Command="dotnet tool restore" />
+  	</Target>
+</Project>

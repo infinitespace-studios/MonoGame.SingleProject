@@ -1,0 +1,24 @@
+<Project>
+	<PropertyGroup>
+		<!-- To attempt XAML hot reload features one day -->
+		<!--<IgnoreMauiXamlHotReloadCompatibilityCheck>true</IgnoreMauiXamlHotReloadCompatibilityCheck>-->
+		<SingleProject>true</SingleProject>
+	</PropertyGroup>
+	<ItemGroup>
+		<!-- This tells VS Windows to load XamarinVS -->
+		<ProjectCapability Include="Maui" />
+		<!-- If we want to track MonoGame -->
+		<ProjectCapability Include="MonoGame" />
+	</ItemGroup>
+
+	<Import Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
+	<Import Project="AutoImport.props" /> 
+
+	<ItemGroup Condition="'$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable'">
+		<Using Include="Microsoft.Xna.Framework" />
+		<Using Include="Microsoft.Xna.Framework.Graphics" />
+		<Using Include="Microsoft.Xna.Framework.Input" />
+		<Using Include="Microsoft.Xna.Framework.Audio" />
+		<Using Include="Microsoft.Xna.Framework.Content" />
+	</ItemGroup>
+</Project>

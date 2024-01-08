@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.Build.NoTargets">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageVersion>1.0.0</PackageVersion>
+    <PackageType>MSBuildSdk</PackageType>
+    <OutputPath>../bin/$(Configuration)/</OutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NoWarn>NU5128</NoWarn>
+    <Description>This is a wrapper Custom Sdk which allows for a Single Project to target many platforms for MonoGame.</Description>
+    <Authors>dellis1972</Authors>
+    <Owners>MonoGame</Owners>
+    <Copyright>© MonoGame Foundation. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/MonoGame/MonoGame.SingleProject.Sdk</PackageProjectUrl>
+    <PackageTags>MonoGame .NET 8 MSBuild Android iOS Mac Windows Linux</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="../LICENSE" Pack="true" PackagePath="/" />
+    <None Update="@(None)" Pack="true" PackagePath="/" />
+    <None Update="SignList.xml" Pack="false" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="_ClearNuGetCache" BeforeTargets="Build">
+    <RemoveDir Directories="$(MSBuildThisFileDirectory)../packages/monogame.singleproject.sdk/" />
+  </Target>
+</Project>
