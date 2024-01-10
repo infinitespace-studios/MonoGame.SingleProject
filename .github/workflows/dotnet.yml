@@ -29,4 +29,4 @@ jobs:
     - name: Build Sample
       run: dotnet build sample/sample.csproj -c Release -t:InstallAndroidDependencies -f net8.0-android -p:AndroidSdkDirectory=$HOME/.android/sdk -p:AcceptAndroidSDKLicenses=true
     - name: Build Sample
-      run: dotnet build sample/sample.csproj -c Release
+      run: dotnet build sample/sample.csproj -c Release -p:AndroidSdkDirectory=$HOME/.android/sdk
