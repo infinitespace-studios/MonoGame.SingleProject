@@ -27,4 +27,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet workload restore sample/sample.csproj
     - name: Build Sample
+      run: dotnet build sample/sample.csproj -c Release -t:InstallAndroidDependencies -f net8.0-android
+    - name: Build Sample
       run: dotnet build sample/sample.csproj -c Release
