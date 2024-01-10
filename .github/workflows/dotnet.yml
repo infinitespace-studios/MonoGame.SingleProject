@@ -21,8 +21,10 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore src/MonoGame.SingleProject.Sdk.csproj
     - name: Build
       run: dotnet build src/MonoGame.SingleProject.Sdk.csproj -c Release
+    - name: Restore dependencies
+      run: dotnet workload restore sample/sample.csproj
     - name: Build Sample
       run: dotnet build sample/sample.csproj -c Release
