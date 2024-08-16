@@ -19,6 +19,6 @@
     <None Update="SignList.xml" Pack="false" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <Target Name="_ClearNuGetCache" BeforeTargets="Build">
-    <RemoveDir Directories="$(MSBuildThisFileDirectory)../packages/monogame.singleproject.sdk/" />
+    <RemoveDir Directories="$(MSBuildThisFileDirectory)../packages/monogame.singleproject/" />
   </Target>
 </Project>

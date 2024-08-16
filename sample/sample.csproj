@@ -16,7 +16,9 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
   </PropertyGroup>
 
-  <PackageReference Include="MonoGame.SingleProject" Version="*" />
+  <ItemGroup>
+    <PackageReference Include="MonoGame.SingleProject" Version="1.0.0" />
+  </ItemGroup>
 
   <ItemGroup Condition=" $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == ''">
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
