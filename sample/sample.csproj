@@ -1,4 +1,4 @@
-﻿<Project Sdk="MonoGame.SingleProject.Sdk/1.0.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,6 +7,7 @@
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- <Nullable>enable</Nullable> -->
+    <SingleProject>true</SingleProject>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -14,6 +15,8 @@
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
   </PropertyGroup>
+
+  <PackageReference Include="MonoGame.SingleProject" Version="*" />
 
   <ItemGroup Condition=" $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == ''">
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />

@@ -2,7 +2,7 @@ using System;
 using Foundation;
 using UIKit;
 
-namespace foo2
+namespace sample
 {
     [Register("AppDelegate")]
     class Program : UIApplicationDelegate

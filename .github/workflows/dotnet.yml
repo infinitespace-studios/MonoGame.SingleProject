@@ -27,6 +27,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet workload restore sample/sample.csproj
     - name: Build Sample
-      run: dotnet build sample/sample.csproj -c Release -t:InstallAndroidDependencies -f net8.0-android -p:AndroidSdkDirectory=$HOME/.android/sdk -p:AcceptAndroidSDKLicenses=true
+      run: dotnet build sample/sample.csproj -c Release -t:InstallAndroidDependencies -f net8.0-android -p:AndroidSdkDirectory=$GITHUB_WORKSPACE/android/sdk -p:AcceptAndroidSDKLicenses=true
     - name: Build Sample
-      run: dotnet build sample/sample.csproj -c Release -p:AndroidSdkDirectory=$HOME/.android/sdk
+      run: dotnet build sample/sample.csproj -c Release -p:AndroidSdkDirectory=$GITHUB_WORKSPACE/android/sdk
