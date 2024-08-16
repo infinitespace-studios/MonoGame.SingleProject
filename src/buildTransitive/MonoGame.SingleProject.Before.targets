@@ -3,7 +3,6 @@
 	<ItemGroup Condition=" '$(MonoGameEnablePlatformUsings)' != 'true' and ('$(ImplicitUsings)' == 'true' or '$(ImplicitUsings)' == 'enable') ">
 		<Using Remove="@(Using->HasMetadata('Platform'))" />
 	</ItemGroup>
-	<Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" /> 
 	<PropertyGroup>
     	<EnableDefaultAndroidItems Condition=" '$(EnableDefaultAndroidItems)' == '' ">$(EnableDefaultItems)</EnableDefaultAndroidItems>
   	</PropertyGroup>
