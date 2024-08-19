@@ -15,10 +15,6 @@
     <EnableDefaultiOSItems>false</EnableDefaultiOSItems>
     <iOSProjectFolder Condition=" '$(iOSProjectFolder)' == '' ">$(PlatformsProjectFolder)iOS\</iOSProjectFolder>
     <iOSProjectFolder>$([MSBuild]::EnsureTrailingSlash('$(iOSProjectFolder)'))</iOSProjectFolder>
-    <!-- MacCatalyst -->
-    <EnableDefaultMacCatalystItems>false</EnableDefaultMacCatalystItems>
-    <MacCatalystProjectFolder Condition=" '$(MacCatalystProjectFolder)' == '' ">$(PlatformsProjectFolder)MacCatalyst\</MacCatalystProjectFolder>
-    <MacCatalystProjectFolder>$([MSBuild]::EnsureTrailingSlash('$(MacCatalystProjectFolder)'))</MacCatalystProjectFolder>
     <!-- Windows -->
     <EnableDefaultWindowsItems>false</EnableDefaultWindowsItems>
     <WindowsProjectFolder Condition=" '$(WindowsProjectFolder)' == '' ">$(PlatformsProjectFolder)Windows\</WindowsProjectFolder>
@@ -32,7 +28,6 @@
   <ItemGroup>
     <MonoGamePlatformSpecificFolder Include="$(AndroidProjectFolder)" TargetPlatformIdentifier="android" />
     <MonoGamePlatformSpecificFolder Include="$(iOSProjectFolder)" TargetPlatformIdentifier="ios" />
-    <MonoGamePlatformSpecificFolder Include="$(MacCatalystProjectFolder)" TargetPlatformIdentifier="maccatalyst" />
     <MonoGamePlatformSpecificFolder Include="$(WindowsProjectFolder)" TargetPlatformIdentifier="windows" />
     <MonoGamePlatformSpecificFolder Include="$(DesktopProjectFolder)" TargetPlatformIdentifier="" />
   </ItemGroup>
@@ -47,12 +42,6 @@
     <IPhoneResourcePrefix>$(iOSProjectFolder)Resources</IPhoneResourcePrefix>
     <CodesignEntitlements Condition=" Exists('$(iOSProjectFolder)Entitlements.plist') ">$(iOSProjectFolder)Entitlements.plist</CodesignEntitlements>
     <_SingleProjectiOSExcludes>$(iOSProjectFolder)/**/.*/**</_SingleProjectiOSExcludes>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(SingleProject)' == 'true' and '$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'maccatalyst' ">
-    <IPhoneResourcePrefix>$(MacCatalystProjectFolder)Resources</IPhoneResourcePrefix>
-    <CodesignEntitlements Condition=" Exists('$(MacCatalystProjectFolder)Entitlements.plist') ">$(MacCatalystProjectFolder)Entitlements.plist</CodesignEntitlements>
-    <_SingleProjectMacCatalystExcludes>$(MacCatalystProjectFolder)/**/.*/**</_SingleProjectMacCatalystExcludes>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(SingleProject)' == 'true' and '$([MSBuild]::GetTargetPlatformIdentifier($(TargetFramework)))' == 'windows' ">
@@ -84,11 +73,6 @@
     <Compile
         Condition=" '$(TargetPlatformIdentifier)' == 'ios' "
         Update="$(iOSProjectFolder)**/*$(DefaultLanguageSourceExtension)">
-      <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
-    </Compile>
-    <Compile
-        Condition=" '$(TargetPlatformIdentifier)' == 'maccatalyst' "
-        Update="$(MacCatalystProjectFolder)**/*$(DefaultLanguageSourceExtension)">
       <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
     </Compile>
     <Compile
