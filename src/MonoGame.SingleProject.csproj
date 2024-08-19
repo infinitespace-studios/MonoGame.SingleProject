@@ -3,7 +3,6 @@
     <BaseOutputPath>..\Artifacts\MonoGame.SingleProject</BaseOutputPath>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageVersion>1.0.0</PackageVersion>
-    <OutputPath>../bin/$(Configuration)/</OutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NoWarn>NU5128</NoWarn>
     <Description>This is a NuGet which allows for a Single Project to target many platforms for MonoGame.</Description>
