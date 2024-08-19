@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.Build.NoTargets">
   <PropertyGroup>
+    <BaseOutputPath>..\Artifacts\MonoGame.SingleProject</BaseOutputPath>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageVersion>1.0.0</PackageVersion>
     <OutputPath>../bin/$(Configuration)/</OutputPath>
