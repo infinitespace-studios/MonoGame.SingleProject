@@ -1,4 +1,4 @@
-# MonoGame.SingleProject.Sdk [Work in Progress]
+# MonoGame.SingleProject [Work in Progress]
 
 This project provides single project support for MonoGame. Similar
 to how the Maui single project system works. Rather than having
@@ -12,4 +12,3 @@ in `Platforms/Android`. You can also place platform specific resources
 in these folders as well.
 
 [] Add Resizetier for application Icons.
-[] Move to a NuGet Rather than a Custom SDK
